@@ -43,7 +43,7 @@ namespace ariel
      */
     OrgChart &OrgChart::add_root(const string &name)
     {   
-        if (name.size() == 0)
+        if (name.empty())
         {
             throw invalid_argument("Name cannot be empty");
         }
@@ -76,7 +76,7 @@ namespace ariel
      */
     OrgChart &OrgChart::add_sub(const string &parent, const string &child)
     {
-        if (parent.size() == 0 || child.size() == 0)
+        if (parent.empty() || child.empty())
         {
             throw invalid_argument("Name cannot be empty");
         }
