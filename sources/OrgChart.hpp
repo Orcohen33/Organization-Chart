@@ -7,6 +7,9 @@ using namespace std;
 
 namespace ariel
 {
+    /**
+     * @brief Struct for the node of the OrgChart
+     */
     struct Node
     {
         string name;
@@ -14,38 +17,44 @@ namespace ariel
         std::vector<Node *> children;
         Node(const string &name, Node *parent) : name(name), parent(parent){};
     };
-    enum IteratorType
-    {
-        LevelOrder,
-        ReverseLevelOrder,
-        PreOrder,
-        None
-    };
+    
+    enum IteratorType{LevelOrder, ReverseLevelOrder, PreOrder, None};
+    /**
+     * @brief Class for the Iterator of the OrgChart
+     */
     class Iterator
     {
     private:
         Node *node;
-        vector<string> name_list;
+        vector<Node*> name_list;
         size_t index;
 
     public:
         Iterator(Node *node, IteratorType type = None);
         Node *get_root() const { return node; };
         Iterator &operator++();
+        Iterator &operator--();
         string &operator*();
         string *operator->();
         bool operator==(const Iterator &other) const;
         bool operator!=(const Iterator &other) const;
     };
 
+    /**
+     * @brief Class for the OrgChart
+     */
     class OrgChart
     {
     public:
-        OrgChart() { this->root = nullptr; };
+        OrgChart();
+        // deep copy constructor
+        OrgChart(const OrgChart &other);
+        // Superficial copying, with smart pointer
+        OrgChart(OrgChart &&other) noexcept;        // Use 'noexcept' to avoid memory leak
         ~OrgChart() { delete_chart(root); };
         OrgChart &add_root(const string &name);
         OrgChart &add_sub(const string &parent, const string &child);
-        Node *get_root();
+        // Node *get_root();
         Iterator begin_level_order() const;
         Iterator end_level_order() const;
         Iterator begin_reverse_order() const;
@@ -55,6 +64,7 @@ namespace ariel
         Iterator begin() const;
         Iterator end() const;
 
+        OrgChart &operator=(const OrgChart &other);
     private:
         Node *root;
         Node *find_node(Node *node, const string &name);
