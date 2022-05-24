@@ -17,8 +17,14 @@ namespace ariel
         std::vector<Node *> children;
         Node(const string &name, Node *parent) : name(name), parent(parent){};
     };
-    
-    enum IteratorType{LevelOrder, ReverseLevelOrder, PreOrder, None};
+
+    enum IteratorType
+    {
+        LevelOrder,
+        ReverseLevelOrder,
+        PreOrder,
+        None
+    };
     /**
      * @brief Class for the Iterator of the OrgChart
      */
@@ -26,7 +32,7 @@ namespace ariel
     {
     private:
         Node *node;
-        vector<Node*> name_list;
+        vector<Node *> name_list;
         size_t index;
 
     public:
@@ -50,7 +56,7 @@ namespace ariel
         // deep copy constructor
         OrgChart(const OrgChart &other);
         // Superficial copying, with smart pointer
-        OrgChart(OrgChart &&other) noexcept;        // Use 'noexcept' to avoid memory leak
+        OrgChart(OrgChart &&other) noexcept; // Use 'noexcept' to avoid memory leak
         ~OrgChart() { delete_chart(root); };
         OrgChart &add_root(const string &name);
         OrgChart &add_sub(const string &parent, const string &child);
@@ -65,6 +71,9 @@ namespace ariel
         Iterator end() const;
 
         OrgChart &operator=(const OrgChart &other);
+        // Move assignment operator
+        OrgChart &operator=(OrgChart &&other) noexcept;
+
     private:
         Node *root;
         Node *find_node(Node *node, const string &name);

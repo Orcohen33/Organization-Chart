@@ -332,5 +332,19 @@ namespace ariel
         }
         return *this;
     }
+    // Move assignment operator
+    OrgChart &OrgChart::operator=(OrgChart &&other) noexcept
+    {
+        if (this != &other)
+        {
+            if (this->root != nullptr)
+            {
+                delete_chart(this->root);
+            }
+            this->root = other.root;
+            other.root = nullptr;
+        }
+        return *this;
+    }
     // ---------------------End Operators override ---------------------------
 } // namespace ariel
